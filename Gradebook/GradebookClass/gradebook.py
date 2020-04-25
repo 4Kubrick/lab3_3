@@ -23,14 +23,20 @@ class GradeBook:
         for i in self.__student_list:
             if i.get_id == id:
                 for rate in i.get_rate_list:
-                    print(f"Ocena: {rate.get_rate} Waga: {rate.get_weight}")
+                    print(f"Ocena: {rate.get_rate} Waga: {rate.get_weigth}")
 
-    def calc_avg_ratings(self, id):
+    def calc_avg_ratings(self):
         for i in self.__student_list:
-            if i.get_id == id:
-                rate_list = i.get_rate_list
-                sum_rate = sum(rate_list, axis=0)
-                print(f'Srednia: {sum_rate/len(rate_list)}')
+            avg = 0
+            total = 0
+            rate_list = i.get_rate_list
+            for ele in range(0, len(rate_list)):
+                total = total + rate_list[ele].get_rate
+            if total == 0:
+                avg = 'niema ocen'
+            else:
+                avg = total/len(rate_list)
+            print(f'Student {i.get_name} {i.get_surename}\r\nMa srednia ocene: {avg}')
 
     def add_rate(self, id, rate, weigth):
         for i in self.__student_list:
@@ -50,8 +56,7 @@ class Student:
         self.__rat_list = []
 
     def add_rate(self, rate, weigth):
-        rating = Rating(rate,weigth)
-        rating.set_rate(rate)
+        rating = Rating(rate, weigth)
         self.__rat_list.append(rating)
 
     @property
