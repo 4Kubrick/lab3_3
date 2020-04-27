@@ -1,6 +1,76 @@
-class GradeBook:
+import copy
+
+class GradeBookList:
     def __init__(self):
+        self.__gradebook_list = []
+
+    def add_gbook(self, name):
+        name = name.strip()
+        if name == "" or name is None:
+            return
+        st_count = len(self.__gradebook_list)
+        gradebook = GradeBook(st_count + 1, name)
+        self.__gradebook_list.append(gradebook)
+
+    def show_all_gbook(self):
+        for entry in self.__gradebook_list:
+            print(f"ID: {entry.get_id} nazwa: {entry.get_name}")
+
+    def clone_gbook(self, id, name, b_remove_rate):
+        for entry in self.__gradebook_list:
+            if entry.get_id == id:
+                new_gbook = copy.deepcopy(entry)
+                if b_remove_rate:
+                    new_gbook.remove_all_rate()
+                st_count = len(self.__gradebook_list)
+                new_gbook.set_id = st_count + 1
+                new_gbook.set_name = name
+                self.__gradebook_list.append(new_gbook)
+
+
+    def check_gbook(self, id):
+        check = False
+        for i in self.__gradebook_list:
+            print(f'Nazwe: {i.get_name}')
+            if i.get_id == id:
+                check = True
+        return check
+
+    def get_gbook(self, id):
+        for g in self.__gradebook_list:
+            print(f'Nazwe: {g.get_name}')
+            if g.get_id == id:
+                return g
+
+class GradeBook:
+    def __init__(self, id, name):
         self.__student_list = []
+        self.__gbook_name = name.strip()
+        self.__gbook_id = id
+
+    @property
+    def get_list(self):
+        return self.__student_list
+
+    @get_list.setter
+    def set_list(self, value):
+        self.__student_list = value
+
+    @property
+    def get_id(self):
+        return self.__gbook_id
+
+    @get_id.setter
+    def set_id(self, value):
+        self.__gbook_id = value
+
+    @property
+    def get_name(self):
+        return self.__gbook_name
+
+    @get_name.setter
+    def set_name(self, value):
+        self.__gbook_name = value
 
     def check_student(self, id):
         check = False
@@ -43,6 +113,10 @@ class GradeBook:
             if i.get_id == id:
                 i.add_rate(rate, weigth)
 
+    def remove_all_rate(self):
+        for i in self.__student_list:
+            i.remove_rate()
+
 
 class Student:
     __name = ""
@@ -51,13 +125,16 @@ class Student:
 
     def __init__(self, name, surename, id):
         self.__student_id = id
-        self.__name = name
-        self.__surename = surename
+        self.__name = name.replace(" ", "")
+        self.__surename = surename.replace(" ", "")
         self.__rat_list = []
 
     def add_rate(self, rate, weigth):
         rating = Rating(rate, weigth)
         self.__rat_list.append(rating)
+
+    def remove_rate(self):
+        self.__rat_list.clear()
 
     @property
     def get_rate_list(self):
