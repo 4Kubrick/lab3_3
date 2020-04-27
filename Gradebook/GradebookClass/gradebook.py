@@ -1,5 +1,6 @@
 import copy
 
+
 class GradeBookList:
     def __init__(self):
         self.__gradebook_list = []
@@ -27,11 +28,9 @@ class GradeBookList:
                 new_gbook.set_name = name
                 self.__gradebook_list.append(new_gbook)
 
-
     def check_gbook(self, id):
         check = False
         for i in self.__gradebook_list:
-            print(f'Nazwe: {i.get_name}')
             if i.get_id == id:
                 check = True
         return check
@@ -41,6 +40,7 @@ class GradeBookList:
             print(f'Nazwe: {g.get_name}')
             if g.get_id == id:
                 return g
+
 
 class GradeBook:
     def __init__(self, id, name):
